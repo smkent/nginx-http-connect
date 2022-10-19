@@ -1,17 +1,5 @@
 #!/bin/sh
 set -x
-case "${NGINX_AUTO_RELOAD:-yes}" in
-    0|no|No|NO|false|FALSE|False|off|OFF|Off)
-        ;;
-    *)
-        echo "nginx auto-reload enabled"
-        while :; do
-            sleep 6h
-            echo "auto-reloading nginx"
-            nginx -s reload
-        done &
-        ;;
-esac
 case "${NGINX_INOTIFY_RELOAD:-yes}" in
     0|no|No|NO|false|FALSE|False|off|OFF|Off)
         ;;
@@ -21,10 +9,12 @@ case "${NGINX_INOTIFY_RELOAD:-yes}" in
             inotifywait \
                 -e create,modify,move,delete,attrib \
                 --exclude '.sw[px]$' \
-                /etc/nginx/templates
+                /etc/nginx/templates \
+                /etc/letsencrypt
+            # Wait briefly for any additional filesystem changes
+            sleep 5s
             echo "reloading nginx after inotify event"
             nginx -s reload
-            sleep 1s
         done &
         ;;
 esac
