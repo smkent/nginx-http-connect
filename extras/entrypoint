@@ -13,6 +13,11 @@ case "${NGINX_INOTIFY_RELOAD:-yes}" in
                 /etc/letsencrypt
             # Wait briefly for any additional filesystem changes
             sleep 5s
+            echo "re-rendering templates"
+            (
+                exec 3>&1
+                /docker-entrypoint.d/20-envsubst-on-templates.sh
+            )
             echo "reloading nginx after inotify event"
             nginx -s reload
         done &
