@@ -1,6 +1,6 @@
 {
   "checkout": null,
-  "commit": "d4c31e509ffaad7fb9cb262f883313e9e8ee568e",
+  "commit": "790d45fd3b7fdc3324a2e8240c683333e98a7f28",
   "context": {
     "cookiecutter": {
       "project_name": "nginx-http-connect",
