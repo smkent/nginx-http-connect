@@ -7,6 +7,7 @@
 
 * Support for HTTP CONNECT via [ngx_http_proxy_connect_module][patch]
 * Periodic auto-reload to pick up new SSL certificates
+* Automatic reload when the templates directory content changes
 * Optional mapped host names available as nginx variables
 * [`tini`][tini] as `init`
 
@@ -25,7 +26,8 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      # NGINX_AUTO_RELOAD: no   # Uncomment to disable soft reload every 6 hours
+      # NGINX_AUTO_RELOAD: no       # Uncomment to disable soft reload every 6 hours
+      # NGINX_INOTIFY_RELOAD: no    # Uncomment to disable reload on template changes
     # extra_hosts:        # Uncomment to map extra host names to nginx variables
     #   gw: host-gateway  # Uncomment to map "$gw" to the Docker host IP
     restart: unless-stopped

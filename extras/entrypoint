@@ -13,4 +13,21 @@ case "${NGINX_AUTO_RELOAD:-yes}" in
         done &
         ;;
 esac
+case "${NGINX_INOTIFY_RELOAD:-yes}" in
+    0|no|No|NO|false|FALSE|False|off|OFF|Off)
+        ;;
+    *)
+        echo "nginx inotify reload enabled"
+        while :; do
+            inotifywait \
+                -e create,modify,move,delete,attrib \
+                --exclude '.sw[px]$' \
+                /etc/nginx/templates
+            echo "reloading nginx after inotify event"
+            nginx -s reload
+            sleep 1s
+        done &
+        ;;
+esac
+
 /docker-entrypoint.sh nginx -g "daemon off;"
