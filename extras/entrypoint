@@ -1,16 +1,22 @@
 #!/bin/sh
 set -x
-case "${NGINX_AUTO_RELOAD:-yes}" in
+case "${NGINX_INOTIFY_RELOAD:-yes}" in
     0|no|No|NO|false|FALSE|False|off|OFF|Off)
         ;;
     *)
-        echo "nginx auto-reload enabled"
+        echo "nginx inotify reload enabled"
         while :; do
-            sleep 6h &
-            wait ${!}
-            echo "auto-reloading nginx"
+            inotifywait \
+                -e create,modify,move,delete,attrib \
+                --exclude '.sw[px]$' \
+                /etc/nginx/templates \
+                /etc/letsencrypt
+            # Wait briefly for any additional filesystem changes
+            sleep 5s
+            echo "reloading nginx after inotify event"
             nginx -s reload
         done &
         ;;
 esac
+
 /docker-entrypoint.sh nginx -g "daemon off;"

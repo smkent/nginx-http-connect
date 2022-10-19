@@ -59,7 +59,7 @@ COPY --from=builder /app/nginx-${NGINX_VERSION}/objs/ngx_http_proxy_connect_modu
 RUN sed '1s;^;load_module\ /usr/lib/nginx/modules/ngx_http_proxy_connect_module.so\;\n;' -i /etc/nginx/nginx.conf
 
 # Add overrides and extras
-RUN apk add --no-cache tini
+RUN apk add --no-cache inotify-tools tini
 COPY extras /smkent-extras
 RUN ln -svf /smkent-extras/map-hosts /docker-entrypoint.d/99-map-hosts.sh
 ENTRYPOINT ["/sbin/tini", "-g", "--", "/smkent-extras/entrypoint"]
