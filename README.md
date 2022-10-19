@@ -23,9 +23,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    environment:
-      # NGINX_INOTIFY_RELOAD: no    # Uncomment to disable reload on config changes
-    # extra_hosts:        # Uncomment to map extra host names to nginx variables
+    # environment:
+    #   NGINX_INOTIFY_RELOAD: no    # Uncomment to disable reload on config changes
+    # extra_hosts:
     #   gw: host-gateway  # Uncomment to map "$gw" to the Docker host IP
     restart: unless-stopped
     volumes:
