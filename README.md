@@ -20,7 +20,6 @@ version: '3.7'
 services:
   nginx:
     image: ghcr.io/smkent/nginx-http-connect:latest
-    build: nginx-http-connect
     ports:
       - "80:80"
       - "443:443"
