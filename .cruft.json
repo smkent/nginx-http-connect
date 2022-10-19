@@ -1,0 +1,20 @@
+{
+  "checkout": null,
+  "commit": "0fb65c301e3b51cc18ab00ce9bc809a67666c214",
+  "context": {
+    "cookiecutter": {
+      "_template": "https://github.com/smkent/cookie-docker",
+      "author_email": "smkent@smkent.net",
+      "author_name": "Stephen Kent",
+      "github_user": "smkent",
+      "project_description": "Container for nginx with HTTP CONNECT support",
+      "project_license": "MIT",
+      "project_name": "nginx-http-connect"
+    }
+  },
+  "directory": null,
+  "skip": [
+    ".git"
+  ],
+  "template": "https://github.com/smkent/cookie-docker"
+}
