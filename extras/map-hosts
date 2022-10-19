@@ -1,0 +1,6 @@
+#!/bin/sh
+set -ex
+grep -ve 'localhost[ $]*' -e '^f[ef]0[0-9]::' -e "${HOSTNAME}" /etc/hosts \
+    | awk '{ gsub(/\./, "_", $2); print "set $" $2 " " $1 ";" }' \
+    >> /etc/nginx/conf.d/common-host-map.include
+cat /etc/nginx/conf.d/common-host-map.include

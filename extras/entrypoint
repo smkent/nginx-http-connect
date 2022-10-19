@@ -1,0 +1,16 @@
+#!/bin/sh
+set -x
+case "${NGINX_AUTO_RELOAD:-yes}" in
+    0|no|No|NO|false|FALSE|False|off|OFF|Off)
+        ;;
+    *)
+        echo "nginx auto-reload enabled"
+        while :; do
+            sleep 6h &
+            wait ${!}
+            echo "auto-reloading nginx"
+            nginx -s reload
+        done &
+        ;;
+esac
+/docker-entrypoint.sh nginx -g "daemon off;"

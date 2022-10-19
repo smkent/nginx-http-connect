@@ -52,8 +52,14 @@ RUN cd /app/nginx-* \
     && make -j$(grep processor /proc/cpuinfo | wc -l) \
     && make install -j$(grep processor /proc/cpuinfo | wc -l)
 
-# Build image
+# Build output image
 FROM upstream as publish
 COPY --from=builder /usr/sbin/nginx /usr/sbin/nginx
 COPY --from=builder /app/nginx-${NGINX_VERSION}/objs/ngx_http_proxy_connect_module.so /usr/lib/nginx/modules
 RUN sed '1s;^;load_module\ /usr/lib/nginx/modules/ngx_http_proxy_connect_module.so\;\n;' -i /etc/nginx/nginx.conf
+
+# Add overrides and extras
+RUN apk add --no-cache tini
+COPY extras /smkent-extras
+RUN ln -svf /smkent-extras/map-hosts /docker-entrypoint.d/99-map-hosts.sh
+ENTRYPOINT ["/sbin/tini", "-g", "--", "/smkent-extras/entrypoint"]
