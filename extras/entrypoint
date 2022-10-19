@@ -6,8 +6,7 @@ case "${NGINX_AUTO_RELOAD:-yes}" in
     *)
         echo "nginx auto-reload enabled"
         while :; do
-            sleep 6h &
-            wait ${!}
+            sleep 6h
             echo "auto-reloading nginx"
             nginx -s reload
         done &
