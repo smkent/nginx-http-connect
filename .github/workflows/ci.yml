@@ -1,3 +1,6 @@
+---
+name: Build
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -12,7 +15,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Build:
+  Container:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -39,7 +42,7 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{raw}}
             type=semver,pattern=v{{major}}.{{minor}}
-            type=semver,pattern=v{{major}}
+            type=semver,pattern=v{{major}},enable=${{ !startsWith(github.ref, 'refs/tags/v0.') }}
             type=edge,branch=main
 
       - name: 📦 Build and publish container image
