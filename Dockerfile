@@ -54,6 +54,7 @@ RUN cd /app/nginx-* \
 
 # Build output image
 FROM upstream as publish
+ARG NGINX_VERSION
 COPY --from=builder /usr/sbin/nginx /usr/sbin/nginx
 COPY --from=builder /app/nginx-${NGINX_VERSION}/objs/ngx_http_proxy_connect_module.so /usr/lib/nginx/modules
 RUN sed '1s;^;load_module\ /usr/lib/nginx/modules/ngx_http_proxy_connect_module.so\;\n;' -i /etc/nginx/nginx.conf
