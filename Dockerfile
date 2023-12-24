@@ -13,6 +13,8 @@ ARG NGINX_VERSION
 ARG CONNECT_PATCH_REPO_REF
 ARG CONNECT_PATCH_VERSION
 
+# Remove existing nginx binary
+RUN rm -v /usr/sbin/nginx
 RUN apk add --no-cache --virtual .build-deps \
         alpine-sdk \
         bash \
